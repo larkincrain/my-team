@@ -93,7 +93,9 @@ export class RoleStore {
         now,
         now,
       );
-    return this.getById(id)!;
+    const created = this.getById(id);
+    if (!created) throw new Error(`Failed to retrieve role after insert: ${id}`);
+    return created;
   }
 
   update(id: string, data: Partial<Omit<Role, 'id' | 'createdAt'>>): Role {
@@ -115,7 +117,9 @@ export class RoleStore {
         now,
         id,
       );
-    return this.getById(id)!;
+    const afterUpdate = this.getById(id);
+    if (!afterUpdate) throw new Error(`Failed to retrieve role after update: ${id}`);
+    return afterUpdate;
   }
 
   delete(id: string): void {
@@ -151,7 +155,9 @@ export class TaskStore {
          VALUES (?, ?, ?, 'queued', '', ?, ?, NULL)`,
       )
       .run(id, data.roleId, data.prompt, now, now);
-    return this.getById(id)!;
+    const created = this.getById(id);
+    if (!created) throw new Error(`Failed to retrieve task after insert: ${id}`);
+    return created;
   }
 
   update(id: string, data: Partial<Omit<Task, 'id' | 'createdAt'>>): Task {
@@ -172,7 +178,9 @@ export class TaskStore {
         updated.completedAt ?? null,
         id,
       );
-    return this.getById(id)!;
+    const afterUpdate = this.getById(id);
+    if (!afterUpdate) throw new Error(`Failed to retrieve task after update: ${id}`);
+    return afterUpdate;
   }
 
   delete(id: string): void {
@@ -218,7 +226,9 @@ export class AgentRuntimeStore {
          VALUES (?, ?, ?, ?, ?, ?)`,
       )
       .run(id, data.name, data.type, data.binaryPath, data.config, now);
-    return this.getById(id)!;
+    const created = this.getById(id);
+    if (!created) throw new Error(`Failed to retrieve agent runtime after insert: ${id}`);
+    return created;
   }
 
   delete(id: string): void {

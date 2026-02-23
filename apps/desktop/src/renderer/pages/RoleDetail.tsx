@@ -76,21 +76,30 @@ export default function RoleDetail() {
 
       <div className="max-w-5xl mx-auto p-6">
         {/* Tabs */}
-        <div className="flex gap-1 mb-6 bg-gray-800 rounded-lg p-1 w-fit">
-          {(['tasks', 'instructions', 'memory'] as TabType[]).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-md text-sm font-medium capitalize transition-colors ${
-                activeTab === tab
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              {tab === 'instructions' ? 'Instructions & Context' : tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-        </div>
+        {(() => {
+          const tabLabels: Record<TabType, string> = {
+            tasks: 'Tasks',
+            instructions: 'Instructions & Context',
+            memory: 'Memory',
+          };
+          return (
+            <div className="flex gap-1 mb-6 bg-gray-800 rounded-lg p-1 w-fit">
+              {(['tasks', 'instructions', 'memory'] as TabType[]).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === tab
+                      ? 'bg-indigo-600 text-white'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {tabLabels[tab]}
+                </button>
+              ))}
+            </div>
+          );
+        })()}
 
         {/* Tasks Tab */}
         {activeTab === 'tasks' && (

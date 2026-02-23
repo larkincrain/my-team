@@ -11,7 +11,7 @@ const isDev = process.env.NODE_ENV === 'development';
 let mainWindow: BrowserWindow | null = null;
 
 const dbPath = isDev
-  ? path.join(__dirname, '../../..', 'dev.db')
+  ? path.join(app.getPath('userData'), 'myteam-dev.db')
   : path.join(app.getPath('userData'), 'myteam.db');
 
 const db = initDb(dbPath);

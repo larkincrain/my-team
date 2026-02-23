@@ -21,6 +21,12 @@ export async function signIn(): Promise<{ user: { email: string; name: string; p
   }
 
   return new Promise((resolve, reject) => {
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      reject(new Error('GOOGLE_CLIENT_ID environment variable is not set'));
+      return;
+    }
+
     const server = http.createServer(async (req, res) => {
       try {
         const reqUrl = req.url ?? '/';
@@ -42,7 +48,6 @@ export async function signIn(): Promise<{ user: { email: string; name: string; p
     });
 
     server.listen(3000, () => {
-      const clientId = process.env.GOOGLE_CLIENT_ID ?? '';
       const authUrl =
         `https://accounts.google.com/o/oauth2/v2/auth` +
         `?client_id=${encodeURIComponent(clientId)}` +
