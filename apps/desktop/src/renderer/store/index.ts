@@ -20,6 +20,7 @@ interface AppStore {
   updateRole(id: string, data: Partial<Role>): Promise<void>;
   deleteRole(id: string): Promise<void>;
   loadTasks(roleId?: string): Promise<void>;
+  createTask(data: Pick<Task, 'roleId' | 'prompt'>): Promise<Task>;
   loadAgentRuntimes(): Promise<void>;
   createAgentRuntime(data: Omit<AgentRuntime, 'id' | 'createdAt'>): Promise<void>;
   deleteAgentRuntime(id: string): Promise<void>;
@@ -74,6 +75,12 @@ export const useAppStore = create<AppStore>((set, get) => ({
     } else {
       set({ tasks });
     }
+  },
+
+  createTask: async (data) => {
+    const task = await window.myTeamAPI.createTask(data);
+    set((state) => ({ tasks: [task, ...state.tasks] }));
+    return task;
   },
 
   loadAgentRuntimes: async () => {

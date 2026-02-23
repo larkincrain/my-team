@@ -14,7 +14,7 @@ const TAB_LABELS: Record<TabType, string> = {
 export default function RoleDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { roles, tasks, loadTasks, updateRole } = useAppStore();
+  const { roles, tasks, loadTasks, updateRole, createTask } = useAppStore();
   const role = roles.find((r) => r.id === id);
   const [activeTab, setActiveTab] = useState<TabType>('tasks');
   const [instructions, setInstructions] = useState('');
@@ -56,8 +56,7 @@ export default function RoleDetail() {
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!taskPrompt.trim()) return;
-    const task = await window.myTeamAPI.createTask({ roleId: role.id, prompt: taskPrompt });
-    useAppStore.getState().loadTasks(role.id);
+    const task = await createTask({ roleId: role.id, prompt: taskPrompt });
     setTaskPrompt('');
     setShowNewTask(false);
     navigate(`/tasks/${task.id}`);

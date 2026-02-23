@@ -20,7 +20,12 @@ export function registerTaskHandlers(
     if (!task) throw new Error(`Task ${taskId} not found`);
     const role = roleStore.getById(task.roleId);
     if (!role) throw new Error(`Role ${task.roleId} not found`);
-    agentRunner.startTask(task, role, getWindow()).catch(console.error);
+    const win = getWindow();
+    agentRunner.startTask(task, role, win).catch((err: Error) => {
+      taskStore.update(taskId, { status: 'failed' });
+      win?.webContents.send('task:status', taskId, 'failed');
+      console.error(`Task ${taskId} failed to start:`, err);
+    });
   });
 
   ipcMain.handle('tasks:stop', async (_event, taskId: string) => {

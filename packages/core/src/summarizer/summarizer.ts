@@ -3,9 +3,8 @@ import type { TaskLog } from '../models/task';
 const SUMMARY_KEYWORDS = ['complete', 'result', 'output', 'decision', 'error', 'success', 'fail', 'finish'];
 
 export function summarizeTaskLogs(logs: TaskLog[], prompt: string): string {
-  const keywords = SUMMARY_KEYWORDS;
   const keyLines = logs
-    .filter((l) => keywords.some((k) => l.content.toLowerCase().includes(k)))
+    .filter((l) => SUMMARY_KEYWORDS.some((k) => l.content.toLowerCase().includes(k)))
     .slice(0, 5)
     .map((l) => l.content);
 
