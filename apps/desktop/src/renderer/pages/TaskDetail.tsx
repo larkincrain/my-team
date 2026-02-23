@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAppStore } from '../store';
 import LogConsole from '../components/LogConsole';
@@ -10,7 +10,12 @@ export default function TaskDetail() {
   const navigate = useNavigate();
   const { tasks, taskLogs, loadTaskLogs, startTask, stopTask } = useAppStore();
   const task = tasks.find((t) => t.id === id);
-  const logs = id ? (taskLogs[id] ?? []) : [];
+  const rawLogs = id ? (taskLogs[id] ?? []) : [];
+  const logs = rawLogs;
+  const lastSystemMessage = useMemo(
+    () => rawLogs.filter((l) => l.type === 'system').slice(-1)[0]?.content ?? 'Input required',
+    [rawLogs],
+  );
   const [starting, setStarting] = useState(false);
 
   useEffect(() => {
@@ -99,7 +104,7 @@ export default function TaskDetail() {
         {task.status === 'waiting_input' && (
           <InputPrompt
             taskId={task.id}
-            message={logs.filter((l) => l.type === 'system').slice(-1)[0]?.content ?? 'Input required'}
+            message={lastSystemMessage}
           />
         )}
       </div>

@@ -36,7 +36,10 @@ export async function signIn(): Promise<{ user: { email: string; name: string; p
         res.end('<html><body>Authentication successful! You can close this window.</body></html>');
         server.close();
         if (code) {
-          const user = { email: 'user@gmail.com', name: 'User', picture: '' };
+          // NOTE: In production, decode the ID token from Google's token endpoint
+          // to get the actual user profile. This placeholder is returned after
+          // receiving the OAuth authorization code; replace with real token exchange.
+          const user = { email: 'authenticated@gmail.com', name: 'Google User', picture: '' };
           await storeUser(user);
           resolve({ user });
         } else {
