@@ -10,11 +10,10 @@ export default function TaskDetail() {
   const navigate = useNavigate();
   const { tasks, taskLogs, loadTaskLogs, startTask, stopTask } = useAppStore();
   const task = tasks.find((t) => t.id === id);
-  const rawLogs = id ? (taskLogs[id] ?? []) : [];
-  const logs = rawLogs;
+  const logs = id ? (taskLogs[id] ?? []) : [];
   const lastSystemMessage = useMemo(
-    () => rawLogs.filter((l) => l.type === 'system').slice(-1)[0]?.content ?? 'Input required',
-    [rawLogs],
+    () => logs.filter((l) => l.type === 'system').slice(-1)[0]?.content ?? 'Input required',
+    [logs],
   );
   const [starting, setStarting] = useState(false);
 

@@ -64,4 +64,3 @@ docs/                  Documentation
 
 See [docs/AGENT_ADAPTER_GUIDE.md](docs/AGENT_ADAPTER_GUIDE.md) to add new adapters.
 See [docs/SECURITY.md](docs/SECURITY.md) for security details.
-A desktop AI agent orchestrator and manager
