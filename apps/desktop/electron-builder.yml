@@ -1,0 +1,14 @@
+appId: com.myteam.desktop
+productName: My Team
+directories:
+  output: release
+files:
+  - dist/**/*
+  - package.json
+mac:
+  category: public.app-category.productivity
+win:
+  target: nsis
+linux:
+  target: AppImage
+nativeRebuilder: all
